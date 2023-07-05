@@ -24,9 +24,9 @@ def create_folder_if_not_exists(ftp, folder):
     # 如果資料夾不存在，則創建新的資料夾
     if folder not in folder_names:
         if is_remote:
-            ftp.mkd(folder + '_remote')
+            ftp.mkd('ftp_test/' + folder + '_remote')
         else:
-            ftp.mkd(folder + '_school')
+            ftp.mkd('ftp_test/' + folder + '_school')
 
 
 def upload_file_to_ftp(filename):
