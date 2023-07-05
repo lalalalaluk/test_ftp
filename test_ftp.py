@@ -7,11 +7,13 @@ import time
 FTP_HOST = ''
 FTP_USERNAME = ''
 FTP_PASSWORD = ''
-is_remote = True
+is_remote = False
+
 
 
 def create_folder_if_not_exists(ftp, folder):
     file_list = []
+
     ftp.dir(file_list.append)
 
     # 提取資料夾名稱
@@ -21,12 +23,16 @@ def create_folder_if_not_exists(ftp, folder):
             folder_name = item.split()[-1]
             folder_names.append(folder_name)
 
+    print(folder_names)
+
+    if is_remote:
+        folder = folder + '_remote'
+    else:
+        folder = folder + '_school'
+
     # 如果資料夾不存在，則創建新的資料夾
     if folder not in folder_names:
-        if is_remote:
-            ftp.mkd('ftp_test/' + folder + '_remote')
-        else:
-            ftp.mkd('ftp_test/' + folder + '_school')
+        ftp.mkd(folder)
 
 
 def upload_file_to_ftp(filename):
@@ -40,11 +46,17 @@ def upload_file_to_ftp(filename):
 
         create_folder_if_not_exists(ftp, today)
 
+        if is_remote:
+            today = today + '_remote'
+        else:
+            today = today + '_school'       
+
         # 進入資料夾
+        ftp.cwd('ftp_test')
         ftp.cwd(today)
 
         # 上傳檔案
-        with open(filename, 'rb') as file:
+        with open('file_bank/' + filename, 'rb') as file:
             ftp.storbinary('STOR ' + filename, file)
 
         ftp.quit()
