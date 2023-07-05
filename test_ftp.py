@@ -57,7 +57,7 @@ def main():
     while True:
         # 建立測試檔案，這裡以當前時間戳為檔名
         filename = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S.txt')
-        with open(filename, 'w') as file:
+        with open('file_bank/' + filename, 'w') as file:
             file.write('')
 
         # 上傳檔案到 FTP
